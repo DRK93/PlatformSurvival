@@ -32,4 +32,9 @@ public class GameManager : MonoBehaviour
         m_SpawnManager.StartSpawning();
         startScreen.SetActive(false);
     }
+
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
 }
