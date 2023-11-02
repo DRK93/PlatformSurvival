@@ -1,12 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class SpawnManager : MonoBehaviour
 {
 
     public GameObject enemyPrefab;
     public GameObject powerupPrefab;
+    public Timer gameTimer;
+    public Text waveCount;
     public Vector2 spawnRange;
 
     private int m_EnemyCount;
@@ -18,6 +23,17 @@ public class SpawnManager : MonoBehaviour
         m_EnemyWaveCount = 1;
         enabled = false;
     }
+
+    private void Start()
+    {
+        gameTimer.countdown += SpawnPowerUp;
+    }
+
+    private void OnDestroy()
+    {
+        gameTimer.countdown -= SpawnPowerUp;
+    }
+
     private void Update()
     {
         m_EnemyCount = FindObjectsOfType<EnemyController>().Length;
@@ -25,6 +41,7 @@ public class SpawnManager : MonoBehaviour
         if (m_EnemyCount == 0)
         {
             m_EnemyWaveCount++;
+            waveCount.text = "Wave number: " + m_EnemyWaveCount;
             SpawnPowerUp();
             for (int i=0; i<m_EnemyWaveCount; i++)
             {
